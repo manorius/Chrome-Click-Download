@@ -148,27 +148,7 @@ startBtn.addEventListener('click', () => {
 
 // Listen for messages from the content script or background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === 'next-element-selected' && activeTabId) {
-    const storageKey = `next_selection_tab_${activeTabId}`;
-    const selection = {
-      selector: message.selector,
-      frameId: sender.frameId
-    };
-    chrome.storage.local.set({ [storageKey]: selection }, () => {
-      selectedElementDiv.textContent = `Next: ${selection.selector}`;
-      selectedElementDiv.style.backgroundColor = '#d4edda';
-    });
-  } else if (message.action === 'prev-element-selected' && activeTabId) {
-    const storageKey = `prev_selection_tab_${activeTabId}`;
-    const selection = {
-      selector: message.selector,
-      frameId: sender.frameId
-    };
-    chrome.storage.local.set({ [storageKey]: selection }, () => {
-      selectedPrevElementDiv.textContent = `Previous: ${selection.selector}`;
-      selectedPrevElementDiv.style.backgroundColor = '#d4edda';
-    });
-  } else if (message.action === 'location-selected') {
+  if (message.action === 'location-selected') {
     selectedLocationDiv.textContent = `Folder: ${message.name}`;
     selectedLocationDiv.style.backgroundColor = '#d4edda';
   } else if (message.action === 'update-status') {

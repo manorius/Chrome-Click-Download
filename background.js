@@ -28,6 +28,32 @@ async function setupOffscreenDocument(path) {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  // Handle messages from content script after it records a click
+  if (message.action === 'next-element-selected' || message.action === 'prev-element-selected') {
+    if (sender.tab && sender.tab.id) {
+      const tabId = sender.tab.id;
+      const keyPrefix = message.action === 'next-element-selected' ? 'next' : 'prev';
+      const storageKey = `${keyPrefix}_selection_tab_${tabId}`;
+      
+      const selection = {
+        selector: message.selector,
+        frameId: sender.frameId
+      };
+
+      // Only save if a valid selector was generated
+      if (selection.selector) {
+          chrome.storage.local.set({ [storageKey]: selection }, () => {
+              console.log(`Saved ${keyPrefix} selection for tab ${tabId}:`, selection);
+              showNotification('Selection Saved', `The ${keyPrefix} button was recorded successfully.`);
+          });
+      } else {
+          showNotification('Selection Failed', `Could not identify the clicked element. Please try again.`);
+      }
+    }
+    return; // End here for this message type
+  }
+
+  // Handle messages from the popup
   if (message.action === 'start-process') {
     startProcess(message.tabId, message.nextSelection, message.prevSelection, message.clicks);
     sendResponse({ status: 'Process started in background.' });
