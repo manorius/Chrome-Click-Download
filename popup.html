@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Click & Download</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h1>Click & Download</h1>
+  <p>1. Record buttons to click.</p>
+  <div id="selectedElement">Next button: Not selected</div>
+  <div id="selectedPrevElement">Previous button: Not selected</div>
+
+  <button id="recordClickBtn">Record Next Button</button>
+  <button id="recordPrevBtn">Record Previous Button</button>
+  <button id="selectElementBtn" style="display: none;">Select Element (Advanced)</button>
+
+  <p class="or-text">or enter a selector manually:</p>
+  <input type="text" id="manualSelectorInput" placeholder="e.g., #submit-btn, .main-class">
+  <button id="saveSelectorBtn">Save Manual Selector</button>
+
+  <p>2. Set number of clicks.</p>
+  <input type="number" id="clickCount" value="5" min="1">
+
+  <p>3. Choose download location (optional).</p>
+  <button id="chooseLocationBtn">Choose Folder</button>
+  <div id="selectedLocation">Default: Downloads folder</div>
+
+  <p>4. Start the process.</p>
+  <button id="startBtn">Start</button>
+
+  <div id="status"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
